@@ -63,12 +63,12 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define maxanglevalue 2500
 #define minanglevalue 500
-#define maxyawangle 270.f
-#define minyawangle 0.f
-#define maxpitangle 270.f
-#define minpitangle 0.f
-#define yawstep 10
-#define pitstep 10
+#define maxyawangle 130.f
+#define minyawangle 90.f
+#define maxpitangle 130.f
+#define minpitangle 90.f
+#define yawstep 20
+#define pitstep 20
 #define angle2value(angle) (uint32_t)(2000.f/270.f*angle+500.f)
 /* USER CODE END Private defines */
 

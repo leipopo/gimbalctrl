@@ -105,16 +105,16 @@ int main(void)
         for (float i = minyawangle; i <= maxyawangle; i += (maxyawangle - minyawangle) / yawstep)
         {
             __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
-            HAL_Delay(1000);
+            HAL_Delay(500);
             for (float j = minpitangle; j <= maxpitangle; j += (maxpitangle - minpitangle) / pitstep)
             {
                 __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(j));
-                HAL_Delay(1000);
+                HAL_Delay(500);
                 sendtopc(i, j, distance);
-                HAL_Delay(1000);
+                HAL_Delay(500);
             }
         }
-        HAL_Delay(5000);
+        HAL_Delay(1000);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
