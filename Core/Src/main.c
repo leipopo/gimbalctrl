@@ -92,7 +92,9 @@ int main(void)
     MX_USART6_UART_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
-    tofinit();
+
+
+    HAL_Delay(500);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
     /* USER CODE END 2 */
@@ -101,22 +103,28 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while (1)
     {
+        while (tofready == 0)
+        {
+            tofinit();
+            HAL_Delay(100);
+        }
         for (float i = minyawangle; i <= maxyawangle; i += (maxyawangle - minyawangle) / yawstep)
         {
             __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
-            HAL_Delay(500);
+            HAL_Delay(1000);
             for (float j = minpitangle; j <= maxpitangle; j += (maxpitangle - minpitangle) / pitstep)
             {
                 __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(j));
-                HAL_Delay(500);
+                HAL_Delay(1000);
                 sendtopc(i, j, distance);
-                HAL_Delay(500);
+                HAL_Delay(100);
             }
         }
         HAL_Delay(1000);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
+        tofready = 0;
     }
     /* USER CODE END 3 */
 }
