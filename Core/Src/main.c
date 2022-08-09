@@ -92,8 +92,7 @@ int main(void)
     MX_USART6_UART_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
-
-    // DMA_RX_INIT(&huart6,&hdma_usart6_rx,);
+    tofinit();
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
     /* USER CODE END 2 */

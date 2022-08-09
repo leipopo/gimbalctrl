@@ -10,6 +10,6 @@ typedef struct LidarPointStructDef
 	uint8_t intensity;//置信度
 	
 }Point_Data;
-
+void tofinit();
 extern float distance;
 #endif // !
