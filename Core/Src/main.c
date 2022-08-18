@@ -108,15 +108,15 @@ int main(void)
             tofinit();
             HAL_Delay(100);
         }
-        for (float i = minyawangle; i <= maxyawangle; i += (maxyawangle - minyawangle) / yawstep)
+        for (float i = minyawangle; i <= maxyawangle+1; i += (maxyawangle - minyawangle) / (yawstep-1))
         {
             __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
             HAL_Delay(1000);
-            for (float j = minpitangle; j <= maxpitangle; j += (maxpitangle - minpitangle) / pitstep)
+            for (float j = minpitangle; j <= maxpitangle+1; j += (maxpitangle - minpitangle) / (pitstep-1))
             {
                 __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(j));
                 HAL_Delay(1000);
-                sendtopc(i, j, distance);
+                sendtopc((i-minyawangle), (j-minpitangle), distance);
                 HAL_Delay(100);
             }
         }
