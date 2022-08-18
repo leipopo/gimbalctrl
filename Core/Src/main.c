@@ -93,7 +93,6 @@ int main(void)
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
 
-
     HAL_Delay(500);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
@@ -103,31 +102,33 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while (1)
     {
-        
-        
-        while (tofready == 0)
-        {
-            tofinit();
-            HAL_Delay(100);
-        }
-        __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value((minyawangle+maxyawangle)/2));
-        HAL_Delay(500);
-        __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(minpitangle));
-        HAL_Delay(500);
-        while (HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 1)
-        {
-            HAL_Delay(100);
-        }
 
-        for (float i = minyawangle; i <= maxyawangle+1; i += (maxyawangle - minyawangle) / (yawstep-1))
+        tofinit();
+
+        setpitchangle(minpitangle);
+        HAL_Delay(500);
+        
+        setyawangle((minyawangle + maxyawangle) / 2);
+        HAL_Delay(500);
+        waitkey();
+
+        setyawangle(minyawangle);
+        HAL_Delay(500);
+        waitkey();
+
+        setyawangle(maxyawangle);
+        HAL_Delay(500);
+        waitkey();
+
+        for (float i = minyawangle; i <= maxyawangle + 1; i += (maxyawangle - minyawangle) / (yawstep - 1))
         {
             __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
             HAL_Delay(1000);
-            for (float j = minpitangle; j <= maxpitangle+1; j += (maxpitangle - minpitangle) / (pitstep-1))
+            for (float j = minpitangle; j <= maxpitangle + 1; j += (maxpitangle - minpitangle) / (pitstep - 1))
             {
                 __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(j));
                 HAL_Delay(1000);
-                sendtopc((i-minyawangle), (j-minpitangle), distance);
+                sendtopc((i - minyawangle), (j - minpitangle), distance);
                 HAL_Delay(100);
             }
         }
@@ -185,6 +186,23 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void setyawangle(float angle)
+{
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(angle));
+}
+
+void setpitchangle(float angle)
+{
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(angle));
+}
+
+void waitkey()
+{
+    while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
+    {
+        HAL_Delay(100);
+    }
+}
 
 /* USER CODE END 4 */
 

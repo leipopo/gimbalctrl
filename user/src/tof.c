@@ -6,22 +6,26 @@ float distance;
 
 void tofinit()
 {
-    DMA_RX_INIT(&huart1, &hdma_usart1_rx, tof_rx_buf[0], tof_rx_buf[1], TOF_RX_BUF_NUM);
+    while (tofready == 0)
+    {
+        DMA_RX_INIT(&huart1, &hdma_usart1_rx, tof_rx_buf[0], tof_rx_buf[1], TOF_RX_BUF_NUM);
+        HAL_Delay(100);
+    }
 }
 
 float tofdatedecode(Point_Data pd[12], uint8_t buf[TOF_RX_BUF_NUM])
 {
-    float tofdist = 0;
-    float sumintensity= 0;
+    float tofdist      = 0;
+    float sumintensity = 0;
     for (int8_t i = 0; i < 12; i++)
     {
         pd[i].distance  = (buf[3 * (i + 2) + 1] << 8) | buf[3 * (i + 2)];
         pd[i].intensity = buf[3 * (i + 2) + 2];
-        tofdist += pd[i].intensity * pd[i].distance ;
-        sumintensity+=pd[i].intensity;
+        tofdist += pd[i].intensity * pd[i].distance;
+        sumintensity += pd[i].intensity;
     }
 
-    return tofdist/sumintensity;
+    return tofdist / sumintensity;
 }
 
 void USART1_IRQHandler()

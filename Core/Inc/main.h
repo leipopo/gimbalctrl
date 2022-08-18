@@ -70,6 +70,12 @@ void Error_Handler(void);
 #define yawstep 20
 #define pitstep 20
 #define angle2value(angle) (uint32_t)(2000.f/270.f*angle+500.f)
+
+void setyawangle(float angle);
+void setpitchangle(float angle);
+void waitkey();
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
