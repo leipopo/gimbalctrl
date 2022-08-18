@@ -103,11 +103,22 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while (1)
     {
+        
+        
         while (tofready == 0)
         {
             tofinit();
             HAL_Delay(100);
         }
+        __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value((minyawangle+maxyawangle)/2));
+        HAL_Delay(500);
+        __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(minpitangle));
+        HAL_Delay(500);
+        while (HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 1)
+        {
+            HAL_Delay(100);
+        }
+
         for (float i = minyawangle; i <= maxyawangle+1; i += (maxyawangle - minyawangle) / (yawstep-1))
         {
             __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
