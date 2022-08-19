@@ -13,7 +13,7 @@ void tofinit()
     }
 }
 
-float tofdatedecode(Point_Data pd[12], uint8_t buf[TOF_RX_BUF_NUM])
+float tofdatadecode(Point_Data pd[12], uint8_t buf[TOF_RX_BUF_NUM])
 {
     float tofdist      = 0;
     float sumintensity = 0;
@@ -46,7 +46,7 @@ void USART1_IRQHandler()
             __HAL_DMA_ENABLE(&hdma_usart1_rx);
             if (this_time_rx_len == TOF_FRAME_LENGTH)
             {
-                distance = tofdatedecode(pointdata, tof_rx_buf[0]);
+                distance = tofdatadecode(pointdata, tof_rx_buf[0]);
                 tofready = 1;
             }
         }
@@ -56,7 +56,7 @@ void USART1_IRQHandler()
             __HAL_DMA_ENABLE(&hdma_usart1_rx);
             if (this_time_rx_len == TOF_FRAME_LENGTH)
             {
-                distance = tofdatedecode(pointdata, tof_rx_buf[1]);
+                distance = tofdatadecode(pointdata, tof_rx_buf[1]);
             }
         }
     }

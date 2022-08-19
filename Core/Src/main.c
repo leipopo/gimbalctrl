@@ -122,11 +122,11 @@ int main(void)
 
         for (float i = minyawangle; i <= maxyawangle + 1; i += (maxyawangle - minyawangle) / (yawstep - 1))
         {
-            __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(i));
+            setyawangle(i);
             HAL_Delay(1000);
             for (float j = minpitangle; j <= maxpitangle + 1; j += (maxpitangle - minpitangle) / (pitstep - 1))
             {
-                __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(j));
+                setpitchangle(j);
                 HAL_Delay(1000);
                 sendtopc((i - minyawangle), (j - minpitangle), distance);
                 HAL_Delay(100);
@@ -188,12 +188,12 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void setyawangle(float angle)
 {
-    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, angle2value(angle));
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, yawangle2value(angle));
 }
 
 void setpitchangle(float angle)
 {
-    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, angle2value(angle));
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, pitangle2value(angle));
 }
 
 void waitkey()

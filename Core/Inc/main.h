@@ -69,7 +69,8 @@ void Error_Handler(void);
 #define minpitangle 25.f
 #define yawstep 20
 #define pitstep 20
-#define angle2value(angle) (uint32_t)(2000.f/270.f*angle+500.f)
+#define pitangle2value(angle) (uint32_t)(2000.f/180.f*angle+500.f)
+#define yawangle2value(angle) (uint32_t)(2000.f/270.f*angle+500.f)
 
 void setyawangle(float angle);
 void setpitchangle(float angle);

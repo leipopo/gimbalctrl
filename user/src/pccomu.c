@@ -1,9 +1,7 @@
 
 #include "main.h"
 void sendtopc(float yawangle, float pitchangle, float dist)
-{
-    // HAL_UART_DMAResume(&huart6);
-    
+{   
     uint8_t mes[10];
     mes[0] = 0xff;
     mes[1] = (uint16_t)yawangle;
@@ -17,5 +15,4 @@ void sendtopc(float yawangle, float pitchangle, float dist)
     mes[9] = (uint16_t)(0x0a);
 
     HAL_UART_Transmit(&huart6, mes, sizeof(mes),100);
-    // HAL_UART_DMAPause(&huart6);
 }
