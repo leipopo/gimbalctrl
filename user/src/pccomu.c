@@ -1,5 +1,7 @@
 
 #include "main.h"
+//打包电机发送给pc的信息
+
 void sendtopc(float yawangle, float pitchangle, float dist)
 {   
     uint8_t mes[10];

@@ -1,5 +1,5 @@
 #include "main.h"
-uint8_t tof_rx_buf[2][TOF_RX_BUF_NUM];
+uint8_t tof_rx_buf[2][TOF_RX_BUF_NUM];//两个缓存区
 uint8_t tofready = 0;
 Point_Data pointdata[12];
 float distance;
@@ -28,6 +28,8 @@ float tofdatadecode(Point_Data pd[12], uint8_t buf[TOF_RX_BUF_NUM])
     return tofdist / sumintensity;
 }
 
+
+//串口接收中断，判断寄存器值来决定是否进行解码
 void USART1_IRQHandler()
 {
     if (huart1.Instance->SR & UART_FLAG_RXNE)
@@ -44,9 +46,9 @@ void USART1_IRQHandler()
         {
             hdma_usart1_rx.Instance->CR |= DMA_SxCR_CT;
             __HAL_DMA_ENABLE(&hdma_usart1_rx);
-            if (this_time_rx_len == TOF_FRAME_LENGTH)
+            if (this_time_rx_len == TOF_FRAME_LENGTH)//判断数据长度是否正确
             {
-                distance = tofdatadecode(pointdata, tof_rx_buf[0]);
+                distance = tofdatadecode(pointdata, tof_rx_buf[0]);//解码
                 tofready = 1;
             }
         }

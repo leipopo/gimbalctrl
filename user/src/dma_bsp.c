@@ -2,8 +2,8 @@
 
 void DMA_RX_INIT(UART_HandleTypeDef *huartx,
 				 DMA_HandleTypeDef *hdma_usartx_rx,
-				 uint8_t *rx1_buf,
-				 uint8_t *rx2_buf,
+				 uint8_t *rx1_buf,//缓冲区一地址
+				 uint8_t *rx2_buf,//缓冲区二地址
 				 uint16_t dma_buf_num)
 {
 	SET_BIT(huartx->Instance->CR3, USART_CR3_DMAR);

@@ -103,32 +103,32 @@ int main(void)
     while (1)
     {
 
-        tofinit();
+        tofinit();//初始化tof数据的串口DMA接收
 
-        setpitchangle(minpitangle);
+        setpitchangle(minpitangle);//初始化pit角度
         HAL_Delay(500);
         
-        setyawangle((minyawangle + maxyawangle) / 2);
+        setyawangle((minyawangle + maxyawangle) / 2);//深度位置调整
         HAL_Delay(500);
         waitkey();
 
-        setyawangle(minyawangle);
+        setyawangle(minyawangle);//yaw指向起始角度
         HAL_Delay(500);
         waitkey();
 
-        setyawangle(maxyawangle);
+        setyawangle(maxyawangle);//yaw指向最终角度
         HAL_Delay(500);
         waitkey();
 
         for (float i = minyawangle; i <= maxyawangle + 1; i += (maxyawangle - minyawangle) / (yawstep - 1))
         {
-            setyawangle(i);
+            setyawangle(i);//yaw指向初始位置
             HAL_Delay(1000);
             for (float j = minpitangle; j <= maxpitangle + 1; j += (maxpitangle - minpitangle) / (pitstep - 1))
             {
-                setpitchangle(j);
+                setpitchangle(j);//pitch指向初始位置
                 HAL_Delay(1000);
-                sendtopc((i - minyawangle), (j - minpitangle), distance);
+                sendtopc((i - minyawangle), (j - minpitangle), distance);//向电脑发送数据
                 HAL_Delay(100);
             }
         }
